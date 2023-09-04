@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "914856312173",
+    "project_id": "corridasegura-33008",
+    "storage_bucket": "corridasegura-33008.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914856312173:android:d47ed648e82e31a3a3ae64",
+        "android_client_info": {
+          "package_name": "com.corridasegura.corridasegura"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914856312173-gtnesb5nugjcbvklu1rc7kba4i9p571a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvWUA3CeFFX_IUHg5srDiUg3QeQYrYMk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914856312173-gtnesb5nugjcbvklu1rc7kba4i9p571a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914856312173-anes5b3f49k634vv0k2qctbcafps1jan.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.corridasegura.driver"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:914856312173:android:eb8733c2443b308ca3ae64",
+        "android_client_info": {
+          "package_name": "com.corridasegura.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "914856312173-gtnesb5nugjcbvklu1rc7kba4i9p571a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvWUA3CeFFX_IUHg5srDiUg3QeQYrYMk4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "914856312173-gtnesb5nugjcbvklu1rc7kba4i9p571a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "914856312173-anes5b3f49k634vv0k2qctbcafps1jan.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.corridasegura.driver"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
