@@ -22,8 +22,8 @@ List any software, tools, or dependencies that users need to have installed befo
 
 ```bash
 # Example
-$ Flutter SDK 3.13.2
-$ Dart SDK 3.1
+$ Flutter SDK 3.10.6
+$ Dart SDK 3.0.6
 $ VS Code 1.81.1
 ```
 
