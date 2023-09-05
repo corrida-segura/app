@@ -42,4 +42,8 @@ const String tCNH = "CNH";
 const String tCLRV = "CLRV";
 const String tFinish = "Concluir Cadastro";
 const String tInvalidEmail = "Email inválido";
-
+const String tAdress = "Endereço";
+const String tAcceptConditions1 = "Aceito os";
+const String tAcceptConditions2 = 'termos e condições.';
+const String tImageRequest = "Insira uma foto de perfil.";
+const String tImageError = "Permissão Negada";

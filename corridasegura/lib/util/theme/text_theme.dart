@@ -12,6 +12,9 @@ class TTextTheme {
     bodyLarge: GoogleFonts.poppins(
       color: Colors.black87,
     ),
+    bodyMedium: GoogleFonts.poppins(
+      color: Colors.black87, fontSize: 16,
+    ),
     labelMedium: GoogleFonts.poppins(
       color: Colors.black87,
     ),
@@ -23,6 +26,9 @@ class TTextTheme {
     ),
     bodyLarge: GoogleFonts.poppins(
       color: Colors.white, fontSize: 24,
+    ),
+    bodyMedium: GoogleFonts.poppins(
+      color: Colors.white, fontSize: 16,
     ),
     labelMedium: GoogleFonts.poppins(
       color: Colors.white,

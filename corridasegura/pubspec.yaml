@@ -22,6 +22,8 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   brasil_fields: ^1.14.0
   email_validator: ^2.1.17
+  image_picker: ^1.0.4
+  permission_handler: ^10.4.3
 
 dev_dependencies:
   flutter_test:

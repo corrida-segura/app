@@ -1,3 +1,4 @@
+import 'package:corridasegura/features/authentication/screens/signup/sign_up_page_four.dart';
 import 'package:corridasegura/features/authentication/screens/signup/sign_up_page_three.dart';
 import 'package:corridasegura/features/authentication/screens/signup/signup_page_one.dart';
 import 'package:corridasegura/features/authentication/screens/signup/signup_page_two.dart';
@@ -8,6 +9,7 @@ class SignUpController extends GetxController {
   
   final RxInt _currentStep = 0.obs;
   PageController pageController = PageController();
+  bool isChecked = false;
 
   //Add TextEditingControllers 
   final nameController = TextEditingController();
@@ -27,7 +29,7 @@ class SignUpController extends GetxController {
       content: const SignUpPageThree(), title: const Text(''), isActive: _currentStep.value >=2,
     ),
     Step(
-      content: const Text('Hello'), title: const Text(''), isActive: _currentStep.value >=3,
+      content: const SignUpPageFour(), title: const Text(''), isActive: _currentStep.value >=3,
     ),
   ];
 
