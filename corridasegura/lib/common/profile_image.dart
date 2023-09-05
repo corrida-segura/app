@@ -39,6 +39,7 @@ class _ProfileImageState extends State<ProfileImage> {
         //Set background image using a image from the assets folder
         backgroundImage: const AssetImage(tAvatar),
         foregroundImage: _pickedImage != null ? FileImage(File(_pickedImage!.path)) : null,
+        child: const Icon(Icons.file_upload_outlined),
       ),
     );
   }
