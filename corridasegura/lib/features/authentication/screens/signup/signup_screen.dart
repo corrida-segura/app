@@ -5,6 +5,8 @@ import 'package:corridasegura/features/authentication/controller/signup_controll
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+//TODO: Verificar formato da cnh, crlv, agência e conta
+
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -14,7 +16,6 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   final SignUpController _controller = Get.put(SignUpController());
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -31,16 +32,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 _controller.next();
               });
             },
-            onStepTapped: (step) => setState(() {
-              _controller.setCurrentStep(step);
-            }),
-            controlsBuilder: (context, controller) {
+            onStepTapped: (step) {
+              if (step <= _controller.getCurrentStep()) {
+                setState(() {
+                  _controller.setCurrentStep(step);
+                });
+              }
+            },
+            controlsBuilder: (context, stepper) {
               return RectTextButton(
                 label: _controller.getCurrentStep() ==
                         _controller.getSteps().length - 1
                     ? tFinish
                     : tNext,
-                onPressed: () => controller.onStepContinue!(),
+                onPressed: () {
+                  _controller.processForm(context, stepper);
+                },
               );
             },
           ),

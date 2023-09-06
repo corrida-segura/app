@@ -35,11 +35,13 @@ const String tDontHaveAnAccount = "Não possui conta?";
 const String tWrongEmail = "Email incorreto";
 const String tWrongPassword = "Senha incorreta";
 
+//TODO: Trazer textos de erro
+
 // -- Sign Up Screen Text
 const String tConfirmPassword = "Confirmar Senha";
 const String tCPF = "CPF";
 const String tCNH = "CNH";
-const String tCLRV = "CLRV";
+const String tCRLV = "CRLV";
 const String tFinish = "Concluir Cadastro";
 const String tInvalidEmail = "Email inválido";
 const String tAdress = "Endereço";

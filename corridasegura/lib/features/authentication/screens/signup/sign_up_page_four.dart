@@ -13,40 +13,50 @@ class SignUpPageFour extends StatefulWidget {
 }
 
 class _SignUpPageFourState extends State<SignUpPageFour> {
-  final SignUpController _controller = Get.put(SignUpController());
-
   @override
   Widget build(BuildContext context) {
+    final SignUpController controller = Get.put(SignUpController());
+    final formKey = controller.formKeys[3];
     return SingleChildScrollView(
       child: Form(
+        key: formKey,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
-                decoration: const InputDecoration(
-                  label: Text(tAdress),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(tBorderRadius)),
+                  controller: controller.addressController,
+                  decoration: const InputDecoration(
+                    label: Text(tAdress),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(tBorderRadius)),
+                    ),
+                    prefixIcon: Icon(Icons.house_outlined),
                   ),
-                  prefixIcon: Icon(Icons.house_outlined),
-                ),
-              ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite o endereço';
+                    }
+                    return null;
+                  }),
               const SizedBox(height: 20),
-               Center(child: Text(tImageRequest, style: Theme.of(context).textTheme.bodyLarge),),
+              Center(
+                child: Text(tImageRequest,
+                    style: Theme.of(context).textTheme.bodyLarge),
+              ),
               const SizedBox(height: 20),
               const Center(child: ProfileImage()),
               const SizedBox(height: 20),
               Row(
                 children: [
                   Checkbox(
-                    value: _controller.isChecked,
+                    value: controller.isChecked,
                     onChanged: (bool? value) {
                       setState(
                         () {
-                          _controller.isChecked = value!;
+                          controller.isChecked = value!;
                         },
                       );
                     },
