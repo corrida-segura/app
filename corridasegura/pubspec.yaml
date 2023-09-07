@@ -24,6 +24,7 @@ dependencies:
   email_validator: ^2.1.17
   image_picker: ^1.0.4
   permission_handler: ^10.4.3
+  cloud_firestore: ^4.9.1
 
 dev_dependencies:
   flutter_test:
