@@ -65,12 +65,12 @@ class _AdressInfoFormState extends State<AdressInfoForm> {
                     },
                   ),
                   SizedBox(
-                    width: 250,
+                    width: 200,
                     child: Text(
                       
                       tAcceptConditions,
                       softWrap: true,
-                      style: Theme.of(context).textTheme.labelMedium,
+                      style: Theme.of(context).textTheme.labelSmall,
                       textAlign: TextAlign.start,
                     ),
                   ),

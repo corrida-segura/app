@@ -12,6 +12,7 @@ class TAppTheme {
   );
   static final ThemeData darkTheme = ThemeData(
     primaryColor: const Color(0xFF1363DF),
+    scaffoldBackgroundColor: const Color(0xFF050B16),
     brightness: Brightness.dark,
     textTheme: TTextTheme.darkTheme,
   );

@@ -61,7 +61,6 @@ class CarInfoForm extends StatelessWidget {
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 controller: controller.modeloController,
-                obscureText: true,
                 decoration: const InputDecoration(
                     label: Text(tModelo),
                     hintText: tModeloHint,

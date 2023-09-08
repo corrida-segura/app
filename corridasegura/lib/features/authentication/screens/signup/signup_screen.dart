@@ -38,7 +38,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
               Expanded(
                 child: Stepper(
                   type: StepperType.horizontal,
-                  
                   elevation: 0,
                   currentStep: _controller.getCurrentStep(),
                   steps: _controller.getSteps(),

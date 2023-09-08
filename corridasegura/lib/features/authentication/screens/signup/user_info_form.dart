@@ -78,7 +78,7 @@ class SignUpUserInfo extends StatelessWidget {
                     return 'A senha deve ter no mínimo 8 caracteres';
                   }
                   if (!value.contains(RegExp(r'[A-Z]'))) {
-                    return 'A senha deve conter pelo menos uma letra maiúscula';
+                    return 'Pelo menos uma letra maiúscula';
                   }
                   if (!value.contains(RegExp(r'[!@#$%^&*(),.?":{}|<>]'))) {
                     return 'A senha deve conter pelo menos um caractere especial';
