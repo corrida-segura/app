@@ -1,12 +1,15 @@
 import 'package:corridasegura/common/rect_text_button.dart';
+import 'package:corridasegura/constants/images.dart';
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
 import 'package:corridasegura/features/authentication/controller/signup_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-//TODO: Verificar formato da cnh, crlv, agência e conta
-
+//TODO: Verificar formatos de agencia e conta
+/* - bancos diferentes possuem diferentes formatos
+ */
+//TODO: Mudar estilo de stepper
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
@@ -18,38 +21,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final SignUpController _controller = Get.put(SignUpController());
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Padding(
+    final size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.all(tDefaultSize),
-          child: Stepper(
-            type: StepperType.horizontal,
-            elevation: 0,
-            currentStep: _controller.getCurrentStep(),
-            steps: _controller.getSteps(),
-            onStepContinue: () {
-              setState(() {
-                _controller.next();
-              });
-            },
-            onStepTapped: (step) {
-              if (step <= _controller.getCurrentStep()) {
-                setState(() {
-                  _controller.setCurrentStep(step);
-                });
-              }
-            },
-            controlsBuilder: (context, stepper) {
-              return RectTextButton(
-                label: _controller.getCurrentStep() ==
-                        _controller.getSteps().length - 1
-                    ? tFinish
-                    : tNext,
-                onPressed: () {
-                  _controller.processForm(context, stepper);
-                },
-              );
-            },
+          child: Column(
+            children: [
+              SizedBox(height: size.height * 0.05),
+              Center(
+                child: Image(
+                    image: const AssetImage(tLogoImage),
+                    height: size.height * 0.12),
+              ),
+              SizedBox(height: size.height * 0.02),
+              Expanded(
+                child: Stepper(
+                  type: StepperType.horizontal,
+                  
+                  elevation: 0,
+                  currentStep: _controller.getCurrentStep(),
+                  steps: _controller.getSteps(),
+                  onStepContinue: () {
+                    setState(() {
+                      _controller.next();
+                    });
+                  },
+                  onStepTapped: (step) {
+                    if (step <= _controller.getCurrentStep()) {
+                      setState(() {
+                        _controller.setCurrentStep(step);
+                      });
+                    }
+                  },
+                  controlsBuilder: (context, stepper) {
+                    return RectTextButton(
+                      label: _controller.getCurrentStep() ==
+                              _controller.getSteps().length - 1
+                          ? tFinish
+                          : tNext,
+                      onPressed: () {
+                        _controller.processForm(context, stepper);
+                      },
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       ),

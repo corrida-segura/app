@@ -1,19 +1,15 @@
 import 'package:corridasegura/features/authentication/controller/auth_controller.dart';
-import 'package:corridasegura/features/authentication/screens/signup/sign_up_page_four.dart';
-import 'package:corridasegura/features/authentication/screens/signup/sign_up_page_three.dart';
-import 'package:corridasegura/features/authentication/screens/signup/signup_page_one.dart';
-import 'package:corridasegura/features/authentication/screens/signup/signup_page_two.dart';
+import 'package:corridasegura/features/authentication/screens/signup/adress_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/bank_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/car_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/user_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/user_docs_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignUpController extends GetxController {
-
   static SignUpController get instance => Get.find();
-  
-  //TODO: Verificar se email, cpf já existe
-  //TODO: Adicionar tela nova da Larissa
-  //TODO: Tratamento de possíveis erros
 
   final RxInt _currentStep = 0.obs;
 
@@ -29,7 +25,12 @@ class SignUpController extends GetxController {
   final RxString selectedBank = ''.obs;
   final agController = TextEditingController();
   final contaController = TextEditingController();
+
   //Quarta página
+  final placaController = TextEditingController();
+  final marcaController = TextEditingController();
+  final modeloController = TextEditingController();
+  //Quinta página
   final addressController = TextEditingController();
   bool isChecked = false;
 
@@ -38,28 +39,35 @@ class SignUpController extends GetxController {
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
     GlobalKey<FormState>(),
+    GlobalKey<FormState>()
   ];
 
   List<Step> getSteps() => [
         Step(
-          content: const SignUpPageOne(),
+          content: const SignUpUserInfo(),
           title: const Text(''),
           isActive: _currentStep.value >= 0,
         ),
         Step(
-          content: const SignUpPageTwo(),
+          content: const UserDocsForm(),
           title: const Text(''),
           isActive: _currentStep.value >= 1,
         ),
         Step(
-          content: const SignUpPageThree(),
+          content: const BankInfoForm(),
           title: const Text(''),
           isActive: _currentStep.value >= 2,
         ),
         Step(
-          content: const SignUpPageFour(),
+          content: const CarInfoForm(),
           title: const Text(''),
           isActive: _currentStep.value >= 3,
+        )
+        ,
+        Step(
+          content: const AdressInfoForm(),
+          title: const Text(''),
+          isActive: _currentStep.value >= 4,
         ),
       ];
 
@@ -78,29 +86,66 @@ class SignUpController extends GetxController {
     return _currentStep.value;
   }
 
-  void registerUser(String email, String password) async {
-    // Sign in with email and password
-    var userId = await Get.find<AuthController>()
-        .signUpEmail(email: email, password: password);
+  Future<bool> userExists() async {
+    var query = await FirebaseFirestore.instance
+        .collection('motoristas')
+        .where(Filter.or(
+            Filter('email', isEqualTo: emailController.text.trim()),
+            Filter('cpf', isEqualTo: cpfController.text.trim())))
+        .get();
 
-    
-    
+    if (query.docs.isEmpty) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
-    // Add the user data to the 'motorista' collection in Firebase
-    FirebaseFirestore.instance.collection('motoristas').doc(userId).set(
+  registerUser() async {
+  if (await userExists()) {
+    Get.defaultDialog(
+        title: 'Erro', middleText: 'Email ou CPF já cadastrado');
+  } else {
+    var userId = await Get.find<AuthController>().signUpEmail(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim());
+
+    // Add user info to 'users' subcollection
+    FirebaseFirestore.instance.collection('motoristas').doc(userId).collection('dados pessoais').doc(userId).set(
       {
         'nome': nameController.text,
-        'email': email,
+        'email': emailController.text,
         'CPF': cpfController.text,
         'CNH': cnhController.text,
-        'CRLV': crlvController.text,
-        'banco': selectedBank.value,
-        'agencia': agController.text,
-        'conta': contaController.text,
         'endereco': addressController.text,
       },
     );
+
+    // Add bank info to 'bank' subcollection
+    FirebaseFirestore.instance.collection('motoristas').doc(userId).collection('banco').doc(userId).set(
+      {
+        'banco': selectedBank.value,
+        'agencia': agController.text,
+        'conta': contaController.text,
+      },
+    );
+
+    // Add car info to 'car' subcollection
+    FirebaseFirestore.instance.collection('motoristas').doc(userId).collection('carro').doc(userId).set(
+      {
+        'CRLV': crlvController.text,
+        'placa': placaController.text,
+        'marca': marcaController.text,
+        'modelo': modeloController.text,
+
+      },
+    );
+
+    Get.defaultDialog(
+        title: 'Falta pouco!',
+        middleText: 'Para concluir o cadastro, é necessário preencher suas preferências.');
   }
+}
 
   bool formValidation(step) {
     return formKeys[step].currentState!.validate();
@@ -113,39 +158,17 @@ class SignUpController extends GetxController {
     if (formValidation(currentStep)) {
       if (currentStep == stepsLength - 1) {
         if (!isChecked) {
-          showAlertDialog(
-            context,
-            'É necessário aceitar os termos e condições',
-          );
+          Get.defaultDialog(
+              title: 'Erro',
+              middleText:
+                  'Você precisa aceitar os termos de uso para prosseguir');
+
           return;
         }
-        registerUser(
-          emailController.text.trim(),
-          passwordController.text.trim(),
-        );
+        registerUser();
       } else {
         stepper.onStepContinue!();
       }
     }
-  }
-
-  void showAlertDialog(BuildContext context, String message) {
-    showDialog(
-      //TODO: Mudar estilo do popup
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          content: Text(message),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
   }
 }

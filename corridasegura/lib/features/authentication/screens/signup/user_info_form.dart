@@ -5,8 +5,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUpPageOne extends StatelessWidget {
-  const SignUpPageOne({Key? key}) : super(key: key);
+class SignUpUserInfo extends StatelessWidget {
+  const SignUpUserInfo({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +25,7 @@ class SignUpPageOne extends StatelessWidget {
                   controller: controller.nameController,
                   decoration: const InputDecoration(
                       label: Text(tFullName),
+                      hintText: tFullNameHint,
                       border: OutlineInputBorder(
                         borderRadius:
                             BorderRadius.all(Radius.circular(tBorderRadius)),
@@ -32,28 +33,30 @@ class SignUpPageOne extends StatelessWidget {
                       prefixIcon: Icon(Icons.person_outline_rounded)),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, digite o nome';
+                      return 'Por favor, digite o nome completo';
                     }
                     return null;
                   }),
               const SizedBox(height: tFormHeight - 20),
               TextFormField(
-                  controller: controller.emailController,
-                  decoration: const InputDecoration(
-                    label: Text(tEmail),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(tBorderRadius)),
-                    ),
-                    prefixIcon: Icon(Icons.email_outlined),
+                controller: controller.emailController,
+                decoration: const InputDecoration(
+                  label: Text(tEmail),
+                  hintText: tEmailHint2,
+                  border: OutlineInputBorder(
+                    borderRadius:
+                        BorderRadius.all(Radius.circular(tBorderRadius)),
                   ),
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (!EmailValidator.validate(value!)) {
-                      return tInvalidEmail;
-                    }
-                    return null;
-                  }),
+                  prefixIcon: Icon(Icons.email_outlined),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (!EmailValidator.validate(value!)) {
+                    return tInvalidEmail;
+                  }
+                  return null;
+                },
+              ),
               const SizedBox(height: tFormHeight - 20),
               TextFormField(
                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -61,6 +64,7 @@ class SignUpPageOne extends StatelessWidget {
                 obscureText: true,
                 decoration: const InputDecoration(
                     label: Text(tPassword),
+                    hintText: tPasswordHint2,
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(Radius.circular(tBorderRadius)),
@@ -83,25 +87,7 @@ class SignUpPageOne extends StatelessWidget {
                 },
               ),
               const SizedBox(height: tFormHeight - 20),
-              TextFormField(
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                obscureText: true,
-                decoration: const InputDecoration(
-                    label: Text(tConfirmPassword),
-                    border: OutlineInputBorder(
-                      borderRadius:
-                          BorderRadius.all(Radius.circular(tBorderRadius)),
-                    ),
-                    prefixIcon: Icon(Icons.lock_outlined)),
-                validator: (value) {
-                  if (value != controller.passwordController.text ||
-                      value == null) {
-                    return 'As senhas não conferem';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: tFormHeight - 10),
+              
             ],
           ),
         ),

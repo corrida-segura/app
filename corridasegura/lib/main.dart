@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
       darkTheme: TAppTheme.darkTheme,
       themeMode: ThemeMode.system,
       home: const LoginScreen(),
+      debugShowCheckedModeBanner: false,
     );
   }
 }

@@ -5,18 +5,20 @@ import 'package:corridasegura/features/authentication/controller/signup_controll
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignUpPageFour extends StatefulWidget {
-  const SignUpPageFour({Key? key}) : super(key: key);
+//TODO: Implementar integração com o cloud storage para armazenar a foto de perfil
+
+class AdressInfoForm extends StatefulWidget {
+  const AdressInfoForm({Key? key}) : super(key: key);
 
   @override
-  State<SignUpPageFour> createState() => _SignUpPageFourState();
+  State<AdressInfoForm> createState() => _AdressInfoFormState();
 }
 
-class _SignUpPageFourState extends State<SignUpPageFour> {
+class _AdressInfoFormState extends State<AdressInfoForm> {
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
-    final formKey = controller.formKeys[3];
+    final formKey = controller.formKeys[4];
     return SingleChildScrollView(
       child: Form(
         key: formKey,
@@ -29,6 +31,7 @@ class _SignUpPageFourState extends State<SignUpPageFour> {
                   controller: controller.addressController,
                   decoration: const InputDecoration(
                     label: Text(tAdress),
+                    hintText: tAdressHint,
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(Radius.circular(tBorderRadius)),
@@ -48,7 +51,7 @@ class _SignUpPageFourState extends State<SignUpPageFour> {
               ),
               const SizedBox(height: 20),
               const Center(child: ProfileImage()),
-              const SizedBox(height: 20),
+              const SizedBox(height: 30),
               Row(
                 children: [
                   Checkbox(
@@ -61,18 +64,15 @@ class _SignUpPageFourState extends State<SignUpPageFour> {
                       );
                     },
                   ),
-                  Text(
-                    tAcceptConditions1,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                    textAlign: TextAlign.end,
-                  ),
-                  const SizedBox(width: 3),
-                  Text(
-                    tAcceptConditions2,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyLarge
-                        ?.copyWith(fontWeight: FontWeight.bold),
+                  SizedBox(
+                    width: 250,
+                    child: Text(
+                      
+                      tAcceptConditions,
+                      softWrap: true,
+                      style: Theme.of(context).textTheme.labelMedium,
+                      textAlign: TextAlign.start,
+                    ),
                   ),
                 ],
               ),

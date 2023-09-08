@@ -1,5 +1,5 @@
 import 'package:corridasegura/constants/sizes.dart';
-import 'package:corridasegura/features/authentication/screens/login/login_form_widget.dart';
+import 'package:corridasegura/features/authentication/screens/login/login_form.dart';
 import 'package:corridasegura/features/authentication/screens/login/login_header.dart';
 import 'package:flutter/material.dart';
 
@@ -9,17 +9,37 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Get the size in LoginHeaderWidget()
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(tDefaultSize),
-            child: const Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                LoginHeaderWidget(),
-                LoginForm(),
-              ],
+    return Scaffold(
+      body: DecoratedBox(
+        decoration:  const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFF050B16),
+              Color(0xFF050B16),
+              Color(0xFF000000),
+              Color(0xFF000000),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+        ),
+        
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.all(tDefaultSize),
+              child: Expanded(
+                child: const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LoginHeader(),
+                    LoginForm(),
+                    SizedBox(
+                      height: double.maxFinite,
+                    )
+                  ],
+                ),
+              ),
             ),
           ),
         ),

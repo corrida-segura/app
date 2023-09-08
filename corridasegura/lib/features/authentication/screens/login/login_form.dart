@@ -1,46 +1,82 @@
 import 'package:corridasegura/common/rect_text_button.dart';
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
+import 'package:corridasegura/features/authentication/controller/auth_controller.dart';
 import 'package:corridasegura/features/authentication/screens/signup/signup_screen.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 
-class LoginForm extends StatelessWidget {
+class LoginForm extends StatefulWidget {
   const LoginForm({
     Key? key,
   }) : super(key: key);
 
   @override
+  State<LoginForm> createState() => _LoginFormState();
+}
+
+class _LoginFormState extends State<LoginForm> {
+  final formKey = GlobalKey<FormState>();
+  final email = TextEditingController();
+  final password = TextEditingController();
+
+  bool isButtonDisabled =
+      true; // Add a variable to track the button disabled state
+
+  @override
+  void initState() {
+    super.initState();
+    email.addListener(validateFields); // Add listeners to the text controllers
+    password.addListener(validateFields);
+  }
+
+  void validateFields() {
+    // Update the button disabled state based on the field values
+    setState(() {
+      isButtonDisabled = email.text.isEmpty || password.text.isEmpty;
+    });
+  }
+
+  //TODO: Adicionar toggle de senha
+
+  @override
   Widget build(BuildContext context) {
     return Form(
+      key: formKey,
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: tFormHeight - 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextFormField(
+            
+              controller: email,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.person_outline_outlined),
-                labelText: tEmail,
-                hintText: tEmail,
+                label: Text(tEmail),
+                hintText: tEmailHint,
                 border: OutlineInputBorder(
                   borderRadius:
                       BorderRadius.all(Radius.circular(tBorderRadius)),
                 ),
               ),
+              //TODO: Refatorar código das validações (criar método)
               validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return tWrongEmail;
+                if (!EmailValidator.validate(value!)) {
+                  return tInvalidEmail;
                 }
                 return null;
               },
             ),
             const SizedBox(height: tFormHeight - 20),
             TextFormField(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              controller: password,
               obscureText: true,
               decoration: const InputDecoration(
                 prefixIcon: Icon(Icons.fingerprint),
                 labelText: tPassword,
-                hintText: tPassword,
+                hintText: tPasswordHint,
                 border: OutlineInputBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(tBorderRadius))),
@@ -51,16 +87,27 @@ class LoginForm extends StatelessWidget {
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
-                  return tWrongPassword;
+                  return 'Por favor, digite a senha';
                 }
                 return null;
               },
             ),
             const SizedBox(height: tFormHeight - 20),
-            const RectTextButton(label: tLogin),
+            RectTextButton(
+              label: tLogin,
+              onPressed: (!isButtonDisabled)
+                  ? () {
+                    return AuthController().signInEmail(
+                      email: email.text.trim(), password: password.text.trim());
+                  }
+                  : null,
+            ),
             TextButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => const SignUpScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignUpScreen()));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -81,5 +128,3 @@ class LoginForm extends StatelessWidget {
     );
   }
 }
-
-

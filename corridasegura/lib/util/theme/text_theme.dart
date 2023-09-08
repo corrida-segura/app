@@ -16,7 +16,7 @@ class TTextTheme {
       color: Colors.black87, fontSize: 16,
     ),
     labelMedium: GoogleFonts.poppins(
-      color: Colors.black87,
+      color: Colors.black87, fontSize: 14
     ),
   );
   static final TextTheme darkTheme =  TextTheme(
@@ -25,13 +25,13 @@ class TTextTheme {
       fontWeight: FontWeight.bold,
     ),
     bodyLarge: GoogleFonts.poppins(
-      color: Colors.white, fontSize: 24,
+      color: Colors.white,
     ),
     bodyMedium: GoogleFonts.poppins(
       color: Colors.white, fontSize: 16,
     ),
     labelMedium: GoogleFonts.poppins(
-      color: Colors.white,
+      color: Colors.white, fontSize: 14
     ),
   );
 }

@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class SignUpPageTwo extends StatelessWidget {
-  const SignUpPageTwo({super.key});
+class UserDocsForm extends StatelessWidget {
+  const UserDocsForm({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +26,7 @@ class SignUpPageTwo extends StatelessWidget {
                 controller: controller.cpfController,
                 decoration: const InputDecoration(
                   label: Text(tCPF),
+                  hintText: tCPFHint,
                   border: OutlineInputBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(tBorderRadius)),
@@ -48,42 +49,49 @@ class SignUpPageTwo extends StatelessWidget {
               ),
               const SizedBox(height: tFormHeight - 20),
               TextFormField(
-                controller: controller.cnhController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: const InputDecoration(
-                  label: Text(tCNH),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(tBorderRadius)),
+                  controller: controller.cnhController,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(
+                    label: Text(tCNH),
+                    hintText: tCNHHint,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(tBorderRadius)),
+                    ),
+                    prefixIcon: Icon(Icons.drive_eta_outlined),
                   ),
-                  prefixIcon: Icon(Icons.drive_eta_outlined),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, digite a CNH';
-                  }
-                  return null;
-                }
-              ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite a CNH';
+                    }
+                    if (value.length != 11) {
+                      return 'Por favor, digite uma CNH válida';
+                    }
+                    return null;
+                  }),
               const SizedBox(height: tFormHeight - 20),
               TextFormField(
-                controller: controller.crlvController,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                decoration: const InputDecoration(
-                  label: Text(tCRLV),
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(tBorderRadius)),
+                  controller: controller.crlvController,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(
+                    label: Text(tCRLV),
+                    hintText: tCRLVHint,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(tBorderRadius)),
+                    ),
+                    prefixIcon: Icon(Icons.no_crash_outlined),
                   ),
-                  prefixIcon: Icon(Icons.no_crash_outlined),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, digite o CRLV';
-                  }
-                  return null;
-                }
-              ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite o CRLV';
+                    }
+                    if (value.length != 11) {
+                      return 'Por favor, digite um CRLV válido';
+                    
+                    }
+                    return null;
+                  }),
               const SizedBox(height: tFormHeight - 10),
             ],
           ),
