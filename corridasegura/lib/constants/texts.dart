@@ -1,4 +1,4 @@
-const String tNext = "Próxima etapa";
+const String tNext = "Próximo";
 const String tLogin = "Entrar";
 const String tSignUp = "Cadastrar";
 const String tEmail = "Email";
@@ -30,7 +30,7 @@ const String tOnBoardingCounter3 = "3/3";
 //const String tWelcomeTitle = "Build Awesome Apps";
 //const String tWelcomeSubTitle = "Let's put your creativity on the development highway.";
 
-// -- Login Screen Text
+// -- Tela de Login
 const String tLoginTitle = "Bem vindo de volta!";
 const String tDontHaveAnAccount = "Não possui conta?";
 const String tWrongEmail = "Email incorreto";
@@ -38,7 +38,7 @@ const String tWrongPassword = "Senha incorreta";
 
 //TODO: Trazer textos para cá
 
-// -- Sign Up Screen Text
+// -- Telas de Cadastro
 const String tEmailHint = "ex.: example@gmail.com";
 const String tEmailHint2 = "Insira seu email";
 const String tPasswordHint = "Insira sua senha";
@@ -61,7 +61,7 @@ const String tMarca = "Marca";
 const String tMarcaHint = "Insira a marca";
 const String tModelo = "Modelo";
 const String tModeloHint = "Insira o modelo";
-const String tFinish = "Concluir Cadastro";
+const String tFinishSignUp = "Concluir Cadastro";
 const String tInvalidEmail = "Email inválido";
 const String tAdress = "Endereço";
 const String tAdressHint = "Insira seu endereço";
@@ -70,3 +70,27 @@ const String tAcceptConditions =
 
 const String tImageRequest = "Insira uma foto de perfil.";
 const String tImageError = "Permissão Negada";
+
+// -- Telas de filtros de preferências
+const String tFilterPreferences = "Preferências";
+const String tLocation = "Localização";
+const String tStars = "Estrelas do Passageiro";
+const String tStarsHint = "Quantidade mínima de estrelas";
+const String tDistance = "Distância até o embarque";
+const String tDistanceHint = "Distância máxima até o passageiro";
+const String tTime = "Tempo de embarque";
+const String tTimeHint = "Tempo máximo até o embarque";
+const String tBlockRegion = "Bloqueio de região";
+const String tBlockRegionHint = "Insira qual região deseja bloquear";
+const String tSearchRegion = "Pesquisar região";
+const String tSearchRegionHint = "Pesquisar";
+const String tDayPeriod = "Período";
+const String tDayPeriodHint = "Selecione o Período";
+const String tGoal = "Meta";
+const String tGoalHint = "Meta de corridas do dia";
+const String tFinalDestiny = "Último destino";
+const String tFinalDestinyHint = "Escolha o último destino do dia";
+const String tDynamicAreasCheck = "Aproveitar áreas com preço dinâmico";
+const String tFinishFilter = "Buscar corrida";
+
+

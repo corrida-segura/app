@@ -1,9 +1,9 @@
 import 'package:corridasegura/features/authentication/controller/auth_controller.dart';
-import 'package:corridasegura/features/authentication/screens/signup/adress_info_form.dart';
-import 'package:corridasegura/features/authentication/screens/signup/bank_info_form.dart';
-import 'package:corridasegura/features/authentication/screens/signup/car_info_form.dart';
-import 'package:corridasegura/features/authentication/screens/signup/user_info_form.dart';
-import 'package:corridasegura/features/authentication/screens/signup/user_docs_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/signup_forms/adress_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/signup_forms/bank_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/signup_forms/car_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/signup_forms/user_info_form.dart';
+import 'package:corridasegura/features/authentication/screens/signup/signup_forms/user_docs_form.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -62,8 +62,7 @@ class SignUpController extends GetxController {
           content: const CarInfoForm(),
           title: const Text(''),
           isActive: _currentStep.value >= 3,
-        )
-        ,
+        ),
         Step(
           content: const AdressInfoForm(),
           title: const Text(''),
@@ -86,86 +85,72 @@ class SignUpController extends GetxController {
     return _currentStep.value;
   }
 
-  Future<bool> userExists() async {
+  Future<bool> cpfExists() async {
     var query = await FirebaseFirestore.instance
         .collection('motoristas')
-        .where(Filter.or(
-            Filter('email', isEqualTo: emailController.text.trim()),
-            Filter('cpf', isEqualTo: cpfController.text.trim())))
+        .where(Filter('cpf', isEqualTo: cpfController.text.trim()))
         .get();
 
-    if (query.docs.isEmpty) {
-      return false;
-    } else {
-      return true;
-    }
+    return query.docs.isEmpty;
   }
 
   registerUser() async {
-  if (await userExists()) {
-    Get.defaultDialog(
-        title: 'Erro', middleText: 'Email ou CPF já cadastrado');
-  } else {
-    var userId = await Get.find<AuthController>().signUpEmail(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim());
-
-    // Add user info to 'users' subcollection
-    FirebaseFirestore.instance.collection('motoristas').doc(userId).collection('dados pessoais').doc(userId).set(
-      {
+    var userData = {
+      'dados_pessoais': {
         'nome': nameController.text,
         'email': emailController.text,
         'CPF': cpfController.text,
         'CNH': cnhController.text,
         'endereco': addressController.text,
       },
-    );
-
-    // Add bank info to 'bank' subcollection
-    FirebaseFirestore.instance.collection('motoristas').doc(userId).collection('banco').doc(userId).set(
-      {
+      'dados_banco': {
         'banco': selectedBank.value,
         'agencia': agController.text,
         'conta': contaController.text,
       },
-    );
-
-    // Add car info to 'car' subcollection
-    FirebaseFirestore.instance.collection('motoristas').doc(userId).collection('carro').doc(userId).set(
-      {
+      'dados_carro': {
         'CRLV': crlvController.text,
         'placa': placaController.text,
         'marca': marcaController.text,
         'modelo': modeloController.text,
-
       },
-    );
+    };
 
-    Get.defaultDialog(
-        title: 'Falta pouco!',
-        middleText: 'Para concluir o cadastro, é necessário preencher suas preferências.');
+    try {
+      await Get.find<AuthController>().signUpEmail(
+          email: emailController.text.trim(),
+          password: passwordController.text.trim(),
+          userData: userData);
+    } catch (e) {
+      Get.defaultDialog(title: 'Erro', middleText: e.toString());
+    }
   }
-}
+  //TODO: Limpar os forms
 
-  bool formValidation(step) {
+  bool validateForm(step) {
     return formKeys[step].currentState!.validate();
   }
 
-  void processForm(context, stepper) {
+  Future<void> processForm(context, stepper) async {
     var currentStep = getCurrentStep();
-    var stepsLength = getSteps().length;
+    var totalSteps = getSteps().length;
+    bool cpfMatch = true;
 
-    if (formValidation(currentStep)) {
-      if (currentStep == stepsLength - 1) {
+
+    if (validateForm(currentStep)) {
+      if (currentStep == totalSteps - 1) {
+        cpfMatch = await cpfExists();
         if (!isChecked) {
           Get.defaultDialog(
               title: 'Erro',
               middleText:
                   'Você precisa aceitar os termos de uso para prosseguir');
-
-          return;
+        } else if (cpfMatch) {
+          Get.defaultDialog(
+              title: 'Erro', middleText: 'CPF já cadastrado');
+        } else {
+          registerUser();
         }
-        registerUser();
       } else {
         stepper.onStepContinue!();
       }

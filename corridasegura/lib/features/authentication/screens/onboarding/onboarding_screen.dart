@@ -1,3 +1,5 @@
+//Sem utilidade no momento
+
 import 'package:corridasegura/constants/colors.dart';
 import 'package:corridasegura/features/authentication/controller/onboarding_controller.dart';
 import 'package:flutter/material.dart';

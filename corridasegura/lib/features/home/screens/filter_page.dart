@@ -1,24 +1,20 @@
 import 'package:corridasegura/common/rect_text_button.dart';
-import 'package:corridasegura/constants/images.dart';
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
-import 'package:corridasegura/features/authentication/controller/signup_controller.dart';
+
+import 'package:corridasegura/features/home/controller/filter_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-//TODO: Verificar formatos de agencia e conta
-/* - bancos diferentes possuem diferentes formatos
- */
-//TODO: Mudar estilo de stepper
-class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({super.key});
+class FilterPage extends StatefulWidget {
+  const FilterPage({super.key});
 
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  State<FilterPage> createState() => _FilterPageState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
-  final SignUpController _controller = Get.put(SignUpController());
+class _FilterPageState extends State<FilterPage> {
+  final FilterController _controller = Get.put(FilterController());
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -30,11 +26,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             children: [
               SizedBox(height: size.height * 0.05),
               Center(
-                child: Image(
-                    image: const AssetImage(tLogoImage),
-                    height: size.height * 0.12),
+                child: Text("Preferências",
+                    style: Theme.of(context).textTheme.displaySmall),
               ),
-              SizedBox(height: size.height * 0.02),
               Expanded(
                 child: Theme(
                   data: ThemeData.dark().copyWith(
@@ -61,7 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       return RectTextButton(
                         label: _controller.getCurrentStep() ==
                                 _controller.getSteps().length - 1
-                            ? tFinishSignUp
+                            ? tFinishFilter
                             : tNext,
                         onPressed: () {
                           _controller.processForm(context, stepper);

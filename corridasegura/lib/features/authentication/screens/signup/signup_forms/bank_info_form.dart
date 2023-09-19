@@ -1,4 +1,3 @@
-import 'package:brasil_fields/brasil_fields.dart';
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
 import 'package:corridasegura/features/authentication/controller/signup_controller.dart';
@@ -6,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class UserDocsForm extends StatelessWidget {
-  const UserDocsForm({super.key});
+class BankInfoForm extends StatelessWidget {
+  const BankInfoForm({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final SignUpController controller = Get.put(SignUpController());
-    final formKey = controller.formKeys[1];
+    final formKey = controller.formKeys[2];
 
     return SingleChildScrollView(
       child: Form(
@@ -22,73 +23,64 @@ class UserDocsForm extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                controller: controller.cpfController,
-                decoration: const InputDecoration(
-                  label: Text(tCPF),
-                  hintText: tCPFHint,
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(tBorderRadius)),
-                  ),
-                  prefixIcon: Icon(Icons.badge_outlined),
-                ),
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  CpfInputFormatter(),
-                ],
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, digite o CPF';
-                  }
-                  if (UtilBrasilFields.isCPFValido(value) == false) {
-                    return 'Por favor, digite um CPF válido';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: tFormHeight - 20),
-              TextFormField(
-                  controller: controller.cnhController,
-                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              DropdownButtonFormField<String>(
+                  items: const [
+                    DropdownMenuItem(value: 'Bank A', child: Text('Bank A')),
+                    DropdownMenuItem(value: 'Bank B', child: Text('Bank B')),
+                    DropdownMenuItem(value: 'Bank C', child: Text('Bank C')),
+                  ],
                   decoration: const InputDecoration(
-                    label: Text(tCNH),
-                    hintText: tCNHHint,
+                    labelText: 'Selecione seu banco',
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(Radius.circular(tBorderRadius)),
                     ),
-                    prefixIcon: Icon(Icons.drive_eta_outlined),
+                    prefixIcon: Icon(Icons.account_balance),
                   ),
+                  onChanged: (value) {
+                    controller.selectedBank.value = value!;
+                  },
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, digite a CNH';
-                    }
-                    if (value.length != 11) {
-                      return 'Por favor, digite uma CNH válida';
+                      return 'Por favor, selecione seu banco';
                     }
                     return null;
                   }),
               const SizedBox(height: tFormHeight - 20),
               TextFormField(
-                  controller: controller.crlvController,
+                  controller: controller.agController,
                   inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                   decoration: const InputDecoration(
-                    label: Text(tCRLV),
-                    hintText: tCRLVHint,
+                    labelText: tAgencia,
+                    hintText: tAgenciaHint,
                     border: OutlineInputBorder(
                       borderRadius:
                           BorderRadius.all(Radius.circular(tBorderRadius)),
                     ),
-                    prefixIcon: Icon(Icons.no_crash_outlined),
+                    prefixIcon: Icon(Icons.business),
                   ),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
-                      return 'Por favor, digite o CRLV';
+                      return 'Por favor, digite a agência';
                     }
-                    if (value.length != 11) {
-                      return 'Por favor, digite um CRLV válido';
-                    
+                    return null;
+                  }),
+              const SizedBox(height: tFormHeight - 20),
+              TextFormField(
+                  controller: controller.contaController,
+                  inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                  decoration: const InputDecoration(
+                    labelText: tConta,
+                    hintText: tContaHint,
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.all(Radius.circular(tBorderRadius)),
+                    ),
+                    prefixIcon: Icon(Icons.account_circle),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Por favor, digite o número da conta';
                     }
                     return null;
                   }),

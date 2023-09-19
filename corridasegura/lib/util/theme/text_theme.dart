@@ -5,6 +5,12 @@ class TTextTheme {
   
   static final TextTheme lightTheme = TextTheme(
 
+     displaySmall: GoogleFonts.montserrat(
+      color: Colors.black87,
+      fontWeight: FontWeight.bold,
+      fontSize: 40,
+    ),
+
     titleLarge: GoogleFonts.montserrat(
       color: Colors.black87,
       fontWeight: FontWeight.bold,
@@ -20,6 +26,13 @@ class TTextTheme {
     ),
   );
   static final TextTheme darkTheme =  TextTheme(
+
+    displaySmall: GoogleFonts.montserrat(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+      fontSize: 40,
+    ),
+
     titleLarge: GoogleFonts.montserrat(
       color: Colors.white,
       fontWeight: FontWeight.bold,

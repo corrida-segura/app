@@ -20,24 +20,22 @@ class _LoginFormState extends State<LoginForm> {
   final email = TextEditingController();
   final password = TextEditingController();
 
-  bool isButtonDisabled =
-      true; // Add a variable to track the button disabled state
+  bool isButtonDisabled = true; 
+  bool obscurePassword = true;
 
   @override
   void initState() {
     super.initState();
-    email.addListener(validateFields); // Add listeners to the text controllers
+    email.addListener(validateFields);
     password.addListener(validateFields);
   }
 
   void validateFields() {
-    // Update the button disabled state based on the field values
+  
     setState(() {
       isButtonDisabled = email.text.isEmpty || password.text.isEmpty;
     });
   }
-
-  //TODO: Adicionar toggle de senha
 
   @override
   Widget build(BuildContext context) {
@@ -72,17 +70,19 @@ class _LoginFormState extends State<LoginForm> {
             TextFormField(
               autovalidateMode: AutovalidateMode.onUserInteraction,
               controller: password,
-              obscureText: true,
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.fingerprint),
+              obscureText: obscurePassword,
+              decoration:  InputDecoration(
+                prefixIcon: const Icon(Icons.fingerprint),
                 labelText: tPassword,
                 hintText: tPasswordHint,
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderRadius:
                         BorderRadius.all(Radius.circular(tBorderRadius))),
                 suffixIcon: IconButton(
-                  onPressed: null,
-                  icon: Icon(Icons.remove_red_eye_sharp),
+                  onPressed: () => setState(() {
+                    obscurePassword = !obscurePassword;
+                  }),
+                  icon: const Icon(Icons.remove_red_eye_sharp),
                 ),
               ),
               validator: (value) {
