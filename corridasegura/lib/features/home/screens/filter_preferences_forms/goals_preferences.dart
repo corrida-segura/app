@@ -66,7 +66,7 @@ class _GoalsPreferencesState extends State<GoalsPreferences> {
                           child: Text(
                             tDynamicAreasCheck,
                             softWrap: true,
-                            style: Theme.of(context).textTheme.labelSmall,
+                            style: Theme.of(context).textTheme.labelLarge,
                             textAlign: TextAlign.start,
                           ),
                         ),

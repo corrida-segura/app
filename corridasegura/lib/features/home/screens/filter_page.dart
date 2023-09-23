@@ -1,4 +1,5 @@
-import 'package:corridasegura/common/rect_text_button.dart';
+
+import 'package:corridasegura/common/my_buttons.dart';
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
 

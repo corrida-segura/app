@@ -1,6 +1,6 @@
-import 'package:corridasegura/features/home/screens/filter_preferences/general_preferences.dart';
-import 'package:corridasegura/features/home/screens/filter_preferences/goals_preferences.dart';
-import 'package:corridasegura/features/home/screens/filter_preferences/region_preferences.dart';
+import 'package:corridasegura/features/home/screens/filter_preferences_forms/general_preferences.dart';
+import 'package:corridasegura/features/home/screens/filter_preferences_forms/goals_preferences.dart';
+import 'package:corridasegura/features/home/screens/filter_preferences_forms/region_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -72,6 +72,7 @@ class FilterController extends GetxController {
 
   Future<void> processForm(context, stepper) async {
     var currentStep = getCurrentStep();
+    // ignore: unused_local_variable
     var totalSteps = getSteps().length;
 
 
