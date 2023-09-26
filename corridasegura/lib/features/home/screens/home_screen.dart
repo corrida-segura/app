@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: PageView(
           controller: pc,
+          physics: const NeverScrollableScrollPhysics(),
           onPageChanged: setPaginaAtual,
           children: const [
             MapPage(),

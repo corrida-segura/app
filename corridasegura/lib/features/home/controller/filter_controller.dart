@@ -1,6 +1,7 @@
 import 'package:corridasegura/features/home/screens/filter_preferences_forms/general_preferences.dart';
 import 'package:corridasegura/features/home/screens/filter_preferences_forms/goals_preferences.dart';
 import 'package:corridasegura/features/home/screens/filter_preferences_forms/region_preferences.dart';
+import 'package:corridasegura/features/home/screens/map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,7 +19,7 @@ class FilterController extends GetxController {
   final blockRegionController = TextEditingController();
   final searchRegionController = TextEditingController();
   final dayPeriodController = TextEditingController();
-  
+
   //Terceira página
   final goalController = TextEditingController();
   final finalDestinyController = TextEditingController();
@@ -64,21 +65,39 @@ class FilterController extends GetxController {
     return _currentStep.value;
   }
 
-  
-
   bool validateForm(step) {
     return formKeys[step].currentState!.validate();
   }
 
   Future<void> processForm(context, stepper) async {
     var currentStep = getCurrentStep();
-    // ignore: unused_local_variable
     var totalSteps = getSteps().length;
 
-
-
     if (validateForm(currentStep)) {
-      if(validateForm(currentStep)) {
+      if (currentStep == totalSteps - 1) {
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const MapPage(firstTime: false,)),
+        );
+        // Show bottom sheet with loading
+         showModalBottomSheet(
+          context: context,
+          builder: (BuildContext context) => const SizedBox(
+            height: 250,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(height: 10),
+                  Text('Buscando corridas...', style: TextStyle(fontSize: 20)),
+                ],
+              ),
+            ),
+          ),
+        );    
+      } else {
         stepper.onStepContinue!();
       }
     }

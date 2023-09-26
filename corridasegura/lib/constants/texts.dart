@@ -93,4 +93,6 @@ const String tFinalDestinyHint = "Escolha o último destino do dia";
 const String tDynamicAreasCheck = "Aproveitar áreas com preço dinâmico";
 const String tFinishFilter = "Buscar corrida";
 
+const String apiKey = "AIzaSyBMXJ6ODdgsBwmfvBPPVzUVAaLzcvn9rvA"; 
+
 
