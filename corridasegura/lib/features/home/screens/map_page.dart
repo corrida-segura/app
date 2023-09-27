@@ -54,36 +54,41 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> _getLocation() async {
-    bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (isLocationServiceEnabled) {
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
+    try {
+      bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (isLocationServiceEnabled) {
+        LocationPermission permission = await Geolocator.checkPermission();
         if (permission == LocationPermission.denied) {
-          Get.snackbar('Erro', 'Não foi possivel obter sua localização');
+          permission = await Geolocator.requestPermission();
+          if (permission == LocationPermission.denied) {
+            Get.snackbar('Erro', 'Não foi possível obter sua localização');
+            return;
+          }
+        }
+        if (permission == LocationPermission.deniedForever) {
+          Get.snackbar('Erro', 'Não foi possível obter sua localização');
           return;
         }
+        Position position = await Geolocator.getCurrentPosition();
+        if (_isMounted) {
+          setState(() {
+            motorista = LatLng(position.latitude, position.longitude);
+            loading = false;
+          });
+        }
+      } else {
+        Get.snackbar('Localização', 'Por favor, ative o serviço de localização');
+        await Future.delayed(const Duration(seconds: 3));
+        await Geolocator.openLocationSettings();
+        if (_isMounted) {
+          setState(() {
+            _getLocation();
+          });
+        }
       }
-      if (permission == LocationPermission.deniedForever) {
-        Get.snackbar('Erro', 'Não foi possivel obter sua localização');
-        return;
-      }
-      Position position = await Geolocator.getCurrentPosition();
-      if (_isMounted) {
-        setState(() {
-          motorista = LatLng(position.latitude, position.longitude);
-          loading = false;
-        });
-      }
-    } else {
-      Get.snackbar('Localização', 'Por favor, ative o serviço de localização');
-      await Future.delayed(const Duration(seconds: 3));
-      await Geolocator.openLocationSettings();
-      if (_isMounted) {
-        setState(() {
-          _getLocation();
-        });
-      }
+    } catch (e) {
+      // Handle the exception here
+      Get.snackbar('Erro', 'Erro ao obter sua localização');
     }
   }
 

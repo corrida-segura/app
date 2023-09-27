@@ -5,6 +5,7 @@ import 'package:corridasegura/features/authentication/controller/auth_controller
 import 'package:corridasegura/features/authentication/screens/signup/signup_screen.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({
@@ -28,6 +29,7 @@ class _LoginFormState extends State<LoginForm> {
     super.initState();
     email.addListener(validateFields);
     password.addListener(validateFields);
+    checkAndRequestLocationPermission();
   }
 
   void validateFields() {
@@ -35,6 +37,19 @@ class _LoginFormState extends State<LoginForm> {
     setState(() {
       isButtonDisabled = email.text.isEmpty || password.text.isEmpty;
     });
+  }
+
+  void checkAndRequestLocationPermission() async {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      
+    }
   }
 
   @override
