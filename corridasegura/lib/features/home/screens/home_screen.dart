@@ -1,6 +1,6 @@
 import 'package:corridasegura/constants/colors.dart';
 import 'package:corridasegura/features/home/screens/filter_page.dart';
-import 'package:corridasegura/features/home/screens/map_page.dart';
+import 'package:corridasegura/features/home/screens/home_map_page.dart';
 import 'package:corridasegura/features/home/screens/profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
           physics: const NeverScrollableScrollPhysics(),
           onPageChanged: setPaginaAtual,
           children: const [
-            MapPage(),
+            HomeMapPage(),
             FilterPage(),
             ProfilePage(),
           ]),
@@ -62,7 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
         onTap: (pagina) {
-          pc.animateToPage(pagina, duration: const Duration(milliseconds: 400), curve: Curves.ease);
+          pc.animateToPage(pagina,
+              duration: const Duration(milliseconds: 400), curve: Curves.ease);
         },
       ),
     );

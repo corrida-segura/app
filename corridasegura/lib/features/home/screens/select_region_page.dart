@@ -1,23 +1,23 @@
 import 'dart:async';
-
-import 'package:corridasegura/constants/colors.dart';
 import 'package:corridasegura/constants/images.dart';
-import 'package:corridasegura/constants/texts.dart';
+import 'package:corridasegura/features/home/controller/filter_controller.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 
-class MapPage extends StatefulWidget {
+class SelectRegionPage extends StatefulWidget {
   final bool? firstTime;
-  const MapPage({super.key, this.firstTime});
+  const SelectRegionPage({super.key, this.firstTime});
 
   @override
-  State<MapPage> createState() => _MapPageState();
+  State<SelectRegionPage> createState() => _SelectRegionPageState();
 }
 
-class _MapPageState extends State<MapPage> {
+class _SelectRegionPageState extends State<SelectRegionPage> {
+  final FilterController filterController = Get.find<FilterController>();
+  LatLng? selectedPosition;
   bool _isMounted = false;
   LatLng motorista = const LatLng(0, 0);
   String? mapStyle;
@@ -25,10 +25,6 @@ class _MapPageState extends State<MapPage> {
   bool loading = false;
 
   final Completer<GoogleMapController> _controller = Completer();
-
-  final origin = const LatLng(-16.601746322085198, -49.26196239332546);
-  final destination = const LatLng(-16.677207143419842, -49.24370496206215);
-  List<LatLng> polylineCoordinates = [];
 
   @override
   void initState() {
@@ -55,7 +51,8 @@ class _MapPageState extends State<MapPage> {
 
   Future<void> _getLocation() async {
     try {
-      bool isLocationServiceEnabled = await Geolocator.isLocationServiceEnabled();
+      bool isLocationServiceEnabled =
+          await Geolocator.isLocationServiceEnabled();
       if (isLocationServiceEnabled) {
         LocationPermission permission = await Geolocator.checkPermission();
         if (permission == LocationPermission.denied) {
@@ -77,7 +74,8 @@ class _MapPageState extends State<MapPage> {
           });
         }
       } else {
-        Get.snackbar('Localização', 'Por favor, ative o serviço de localização');
+        Get.snackbar(
+            'Localização', 'Por favor, ative o serviço de localização');
         await Future.delayed(const Duration(seconds: 3));
         await Geolocator.openLocationSettings();
         if (_isMounted) {
@@ -109,21 +107,20 @@ class _MapPageState extends State<MapPage> {
     );
   }
 
-  void getPolyPoints(origin, destination) async {
-    PolylinePoints polylinePoints = PolylinePoints();
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        apiKey,
-        PointLatLng(origin.latitude, origin.longitude),
-        PointLatLng(destination.latitude, destination.longitude));
-
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+  Future<String?> getNeighborhoodName(LatLng position) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+      if (placemarks.isNotEmpty) {
+        return placemarks.first.subLocality;
       }
-      if (_isMounted) {
-        setState(() {});
-      }
+    } catch (e) {
+      return null;
     }
+
+    return null;
   }
 
   @override
@@ -150,24 +147,38 @@ class _MapPageState extends State<MapPage> {
                   target: motorista,
                   zoom: 14,
                 ),
-                polylines: {
-                  Polyline(
-                    polylineId: const PolylineId('route'),
-                    points: polylineCoordinates,
-                    color: tRouteColor,
-                    width: 4,
-                  ),
+                onTap: (LatLng position) async {
+                  setState(() {
+                    selectedPosition = position;
+                  });
+                  String? local = (await getNeighborhoodName(position)) ?? '';
+                  await Future.delayed(const Duration(milliseconds: 400));
+                  Get.back(result: local);
                 },
+                onLongPress: (LatLng position) {
+                  setState(() {
+                    selectedPosition = null;
+                  });
+                },
+                circles: selectedPosition != null
+                    ? {
+                        Circle(
+                          circleId: const CircleId('blockedRegion'),
+                          center: selectedPosition!,
+                          radius:
+                              500, // Set the desired radius of the circle in meters
+                          fillColor: Colors.blue.withOpacity(0.5),
+                          strokeColor: Colors.blue,
+                          strokeWidth: 2,
+                        ),
+                      }
+                    : <Circle>{},
                 markers: {
                   Marker(
                     markerId: const MarkerId('motorista'),
                     position: motorista,
                     icon: motoristaIcon,
                   ),
-                  /* Marker(markerId: const MarkerId('origem'), position: origin),
-                  Marker(
-                      markerId: const MarkerId('destino'),
-                      position: destination), */
                 },
                 mapType: MapType.normal,
                 onMapCreated: (GoogleMapController controller) {

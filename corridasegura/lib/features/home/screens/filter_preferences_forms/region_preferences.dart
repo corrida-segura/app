@@ -1,12 +1,18 @@
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
 import 'package:corridasegura/features/home/controller/filter_controller.dart';
+import 'package:corridasegura/features/home/screens/select_region_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class RegionPreferences extends StatelessWidget {
+class RegionPreferences extends StatefulWidget {
   const RegionPreferences({super.key});
 
+  @override
+  State<RegionPreferences> createState() => _RegionPreferencesState();
+}
+
+class _RegionPreferencesState extends State<RegionPreferences> {
   @override
   Widget build(BuildContext context) {
     final FilterController controller = Get.put(FilterController());
@@ -20,36 +26,88 @@ class RegionPreferences extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFormField(
-                controller: controller.blockRegionController,
-                decoration: const InputDecoration(
-                  label: Text(tBlockRegion),
-                  hintText: tBlockRegionHint,
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(tBorderRadius)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: controller.blockRegionController,
+                      decoration: const InputDecoration(
+                        label: Text(tBlockRegion),
+                        hintText: tBlockRegionHint,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(tBorderRadius),
+                          ),
+                        ),
+                        prefixIcon: Icon(Icons.location_off_outlined),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira o bairro';
+                        }
+                        return null;
+                      }
+                    ),
                   ),
-                  prefixIcon: Icon(Icons.location_off_outlined),
-                ),
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      setState(
+                        () {
+                          Get.to(() => const SelectRegionPage(
+                                firstTime: false,
+                              ))?.then(
+                            (value) => {
+                              controller.blockRegionController.text =
+                                  value ?? ''
+                            },
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: tFormHeight - 20),
-              TextFormField(
-                controller: controller.searchRegionController,
-                decoration: const InputDecoration(
-                  label: Text(tSearchRegion),
-                  hintText: tSearchRegionHint,
-                  border: OutlineInputBorder(
-                    borderRadius:
-                        BorderRadius.all(Radius.circular(tBorderRadius)),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: controller.searchRegionController,
+                      decoration: const InputDecoration(
+                        label: Text(tSearchRegion),
+                        hintText: tSearchRegionHint,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(tBorderRadius)),
+                        ),
+                        prefixIcon: Icon(Icons.location_on_outlined),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Por favor, insira o bairro';
+                        }
+                        return null;
+                      }
+                    ),
                   ),
-                  prefixIcon: Icon(Icons.location_on_outlined),
-                ),
+                  IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      setState(() {
+                        Get.to(() => const SelectRegionPage(
+                          firstTime: false,
+                        ))?.then((value) => {
+                              controller.searchRegionController.text = value ?? ''
+                            });
+                      });
+                    },
+                  ),
+                ],
               ),
               const SizedBox(height: tFormHeight - 20),
               DropdownButtonFormField<String>(
                   items: const [
                     DropdownMenuItem(value: 'Diurno', child: Text('Diurno')),
-                    DropdownMenuItem(value: 'Vespertino', child: Text('Vespertino')),
                     DropdownMenuItem(value: 'Noturno', child: Text('Noturno')),
                   ],
                   decoration: const InputDecoration(

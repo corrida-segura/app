@@ -1,7 +1,7 @@
 import 'package:corridasegura/features/home/screens/filter_preferences_forms/general_preferences.dart';
 import 'package:corridasegura/features/home/screens/filter_preferences_forms/goals_preferences.dart';
 import 'package:corridasegura/features/home/screens/filter_preferences_forms/region_preferences.dart';
-import 'package:corridasegura/features/home/screens/map_page.dart';
+import 'package:corridasegura/features/home/screens/home_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -75,13 +75,15 @@ class FilterController extends GetxController {
 
     if (validateForm(currentStep)) {
       if (currentStep == totalSteps - 1) {
-
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const MapPage(firstTime: false,)),
+          MaterialPageRoute(
+              builder: (_) => const HomeMapPage(
+                    firstTime: false,
+                  )),
         );
         // Show bottom sheet with loading
-         showModalBottomSheet(
+        showModalBottomSheet(
           context: context,
           builder: (BuildContext context) => const SizedBox(
             height: 250,
@@ -96,7 +98,7 @@ class FilterController extends GetxController {
               ),
             ),
           ),
-        );    
+        );
       } else {
         stepper.onStepContinue!();
       }

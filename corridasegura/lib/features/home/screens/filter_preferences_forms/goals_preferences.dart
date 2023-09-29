@@ -1,6 +1,7 @@
 import 'package:corridasegura/constants/sizes.dart';
 import 'package:corridasegura/constants/texts.dart';
 import 'package:corridasegura/features/home/controller/filter_controller.dart';
+import 'package:corridasegura/features/home/screens/select_region_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,17 +38,40 @@ class _GoalsPreferencesState extends State<GoalsPreferences> {
                       ),
                     ),
                     const SizedBox(height: tFormHeight - 20),
-                    TextFormField(
-                      controller: controller.finalDestinyController,
-                      decoration: const InputDecoration(
-                        label: Text(tFinalDestiny),
-                        hintText: tFinalDestinyHint,
-                        border: OutlineInputBorder(
-                          borderRadius:
-                              BorderRadius.all(Radius.circular(tBorderRadius)),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextFormField(
+                            controller: controller.finalDestinyController,
+                            decoration: const InputDecoration(
+                              label: Text(tFinalDestiny),
+                              hintText: tFinalDestinyHint,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(tBorderRadius)),
+                              ),
+                              prefixIcon: Icon(Icons.location_city_outlined),
+                            ),
+                          ),
                         ),
-                        prefixIcon: Icon(Icons.location_city_outlined),
-                      ),
+                        IconButton(
+                          icon: const Icon(Icons.search),
+                          onPressed: () {
+                            setState(
+                              () {
+                                Get.to(() => const SelectRegionPage(
+                                      firstTime: false,
+                                    ))?.then(
+                                  (value) => {
+                                    controller.finalDestinyController.text =
+                                        value
+                                  },
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ],
                     ),
                     Row(
                       children: [

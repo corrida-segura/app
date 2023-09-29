@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:corridasegura/common/my_buttons.dart';
 import 'package:corridasegura/common/profile_image.dart';
 import 'package:corridasegura/constants/sizes.dart';
-import 'package:corridasegura/features/authentication/controller/auth_controller.dart';
 import 'package:corridasegura/features/home/screens/edit_profile_forms/adress_form.dart';
 import 'package:corridasegura/features/home/screens/edit_profile_forms/car_form.dart';
+import 'package:corridasegura/features/home/screens/edit_profile_forms/delete_account.dart';
 import 'package:corridasegura/features/home/screens/edit_profile_forms/email_form.dart';
 import 'package:corridasegura/features/home/screens/edit_profile_forms/name_form.dart';
 import 'package:corridasegura/features/home/screens/edit_profile_forms/password_form.dart';
@@ -80,7 +80,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () => AuthController.instance.signOut(),
+                        onPressed: () => Get.to(() => const DeleteAccount()),
                         style: ButtonStyle(
                           backgroundColor:
                               const MaterialStatePropertyAll(Color(0xFF1A1E23)),
